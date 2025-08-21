@@ -11,6 +11,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Wand2, Loader2 } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Checkbox } from './ui/checkbox';
 
 type JournalFormProps = {
   journal?: Journal | null;
@@ -128,6 +130,16 @@ export function JournalForm({ journal, action }: JournalFormProps) {
             />
             <p className="text-sm text-muted-foreground">Separate tags with a comma.</p>
             {state.errors?.tags && <p id="tags-error" className="text-sm text-destructive">{state.errors.tags.join(', ')}</p>}
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox id="isPublished" name="isPublished" defaultChecked={journal?.isPublished ?? true} />
+            <label
+              htmlFor="isPublished"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Publish this entry
+            </label>
+             {state.errors?.isPublished && <p id="isPublished-error" className="text-sm text-destructive">{state.errors.isPublished.join(', ')}</p>}
           </div>
         </CardContent>
         <CardFooter className="flex justify-end">

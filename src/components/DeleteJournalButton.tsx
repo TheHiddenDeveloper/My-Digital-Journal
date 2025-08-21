@@ -18,7 +18,7 @@ import { Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 type DeleteJournalButtonProps = {
-  journalId: number;
+  journalId: string;
 };
 
 export function DeleteJournalButton({ journalId }: DeleteJournalButtonProps) {

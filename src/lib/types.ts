@@ -1,8 +1,9 @@
 export type Journal = {
-  id: number;
+  id: string;
   title: string;
   content: string;
   tags: string[];
+  isPublished: boolean;
   createdAt: string;
   updatedAt: string;
 };

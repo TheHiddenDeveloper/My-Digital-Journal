@@ -13,10 +13,7 @@ type JournalPageProps = {
 };
 
 export default async function JournalPage({ params }: JournalPageProps) {
-    const id = parseInt(params.id, 10);
-    if (isNaN(id)) {
-        notFound();
-    }
+    const id = params.id;
     
     try {
         const { data: journal } = await getJournal(id);
@@ -36,10 +33,15 @@ export default async function JournalPage({ params }: JournalPageProps) {
                             <p className="text-sm text-muted-foreground">
                                 Last updated on {format(new Date(journal.updatedAt), 'MMMM d, yyyy, p')}
                             </p>
-                            <div className="flex flex-wrap gap-2 mt-4">
+                            <div className="flex flex-wrap items-center gap-2 mt-4">
                                 {journal.tags.map((tag) => (
                                 <Badge key={tag} variant="secondary">{tag}</Badge>
                                 ))}
+                                {journal.isPublished ? (
+                                    <Badge variant="default">Published</Badge>
+                                ) : (
+                                    <Badge variant="outline">Draft</Badge>
+                                )}
                             </div>
                         </div>
                         <div className="flex gap-2 shrink-0">

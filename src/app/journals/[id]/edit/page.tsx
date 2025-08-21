@@ -8,10 +8,7 @@ type EditJournalPageProps = {
 };
 
 export default async function EditJournalPage({ params }: EditJournalPageProps) {
-  const id = parseInt(params.id, 10);
-  if (isNaN(id)) {
-      notFound();
-  }
+  const id = params.id;
   
   try {
     const { data: journal } = await getJournal(id);

@@ -50,25 +50,33 @@ export async function getJournals(params: GetJournalsParams = {}): Promise<Journ
   return fetcher(`/journals${queryString ? `?${queryString}` : ''}`);
 }
 
-export async function getJournal(id: number): Promise<JournalResponse> {
+export async function getJournal(id: string): Promise<JournalResponse> {
   return fetcher(`/journals/${id}`);
 }
 
-export async function createJournal(data: { title: string; content: string; tags: string[] }): Promise<JournalResponse> {
+type JournalMutationPayload = {
+  title: string;
+  content: string;
+  tags: string[];
+  isPublished: boolean;
+};
+
+
+export async function createJournal(data: JournalMutationPayload): Promise<JournalResponse> {
   return fetcher('/journals', {
     method: 'POST',
     body: JSON.stringify(data),
   });
 }
 
-export async function updateJournal(id: number, data: { title: string; content: string; tags: string[] }): Promise<JournalResponse> {
+export async function updateJournal(id: string, data: JournalMutationPayload): Promise<JournalResponse> {
   return fetcher(`/journals/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
 }
 
-export async function deleteJournal(id: number): Promise<{ message: string }> {
+export async function deleteJournal(id: string): Promise<{ message: string }> {
   return fetcher(`/journals/${id}`, {
     method: 'DELETE',
   });
