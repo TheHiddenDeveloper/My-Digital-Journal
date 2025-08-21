@@ -26,13 +26,7 @@ async function fetcher(url: string, options: RequestInit = {}) {
         return { message: 'Success' };
     }
 
-    if (res.headers.has('X-Pagination')) {
-      const pagination = JSON.parse(res.headers.get('X-Pagination')!);
-      const data = await res.json();
-      return { data, ...pagination };
-    }
-    
-    return res.json();
+    return res;
   } catch (error) {
     console.error('Network or fetch error:', error);
     if (error instanceof Error) {
@@ -58,11 +52,21 @@ export async function getJournals(params: GetJournalsParams = {}): Promise<Journ
   if (params.search) query.set('search', params.search);
   
   const queryString = query.toString();
-  return fetcher(`/journals${queryString ? `?${queryString}` : ''}`);
+  const res = await fetcher(`/journals${queryString ? `?${queryString}` : ''}`);
+
+  const data = await res.json();
+  const pagination = res.headers.has('X-Pagination') ? JSON.parse(res.headers.get('X-Pagination')!) : {};
+  
+  return { 
+    data,
+    totalPages: pagination.TotalPages || 1,
+    currentPage: pagination.CurrentPage || 1,
+  };
 }
 
 export async function getJournal(id: string): Promise<JournalResponse> {
-  const journalData = await fetcher(`/journals/${id}`);
+  const res = await fetcher(`/journals/${id}`);
+  const journalData = await res.json();
   return { data: journalData };
 }
 
@@ -75,22 +79,25 @@ type JournalMutationPayload = {
 
 
 export async function createJournal(data: JournalMutationPayload): Promise<Journal> {
-  return fetcher('/journals', {
+  const res = await fetcher('/journals', {
     method: 'POST',
     body: JSON.stringify(data),
   });
+  return res.json();
 }
 
 export async function updateJournal(id: string, data: JournalMutationPayload): Promise<JournalResponse> {
-  const updatedJournal = await fetcher(`/journals/${id}`, {
+  const res = await fetcher(`/journals/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
+  const updatedJournal = await res.json();
   return { data: updatedJournal };
 }
 
 export async function deleteJournal(id: string): Promise<{ message: string }> {
-  return fetcher(`/journals/${id}`, {
+  const res = await fetcher(`/journals/${id}`, {
     method: 'DELETE',
   });
+  return await res.json();
 }
