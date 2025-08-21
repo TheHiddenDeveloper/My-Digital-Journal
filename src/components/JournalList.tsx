@@ -58,20 +58,23 @@ export function JournalList({ journals }: JournalListProps) {
           defaultValue={searchParams.get('tag') || ''}
           className="sm:w-48"
         />
-        <Button type="submit">Search</Button>
+        <Button type="submit">
+          <Search className="mr-2 h-4 w-4" />
+          Search
+        </Button>
       </form>
       
       {journals.length === 0 ? (
         <div className="text-center py-16 bg-card rounded-lg">
-          <h2 className="text-2xl font-semibold">No journal entries found.</h2>
+          <h2 className="text-2xl font-semibold font-headline">No journal entries found.</h2>
           <p className="text-muted-foreground mt-2">Why not create your first one?</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {journals.map((journal) => (
-            <Card key={journal.id} className="flex flex-col hover:shadow-lg transition-shadow duration-300">
+            <Card key={journal.id} className="flex flex-col hover:shadow-lg transition-shadow duration-300 bg-card/50">
               <CardHeader>
-                <CardTitle className="font-headline line-clamp-2">
+                <CardTitle className="font-headline line-clamp-2 text-xl">
                   <Link href={`/journals/${journal.id}`} className="hover:text-primary transition-colors">
                     {journal.title}
                   </Link>
@@ -81,7 +84,7 @@ export function JournalList({ journals }: JournalListProps) {
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
-                <p className="line-clamp-4 text-sm text-muted-foreground">
+                <p className="line-clamp-4 text-sm text-foreground/80">
                   {journal.content}
                 </p>
               </CardContent>
