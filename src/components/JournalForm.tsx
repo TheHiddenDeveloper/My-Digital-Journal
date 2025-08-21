@@ -75,7 +75,7 @@ export function JournalForm({ journal, action }: JournalFormProps) {
               <div className="flex-grow space-y-1">
                 <Input
                   id="title"
-                  name="title"
+                  name="Title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="A title for your entry"
@@ -105,7 +105,7 @@ export function JournalForm({ journal, action }: JournalFormProps) {
             <Label htmlFor="content">Content</Label>
             <Textarea
               id="content"
-              name="content"
+              name="Content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Write what's on your mind..."
@@ -120,7 +120,7 @@ export function JournalForm({ journal, action }: JournalFormProps) {
             <Label htmlFor="tags">Tags</Label>
             <Input
               id="tags"
-              name="tags"
+              name="Tags"
               defaultValue={journal?.Tags?.join(', ') ?? ''}
               placeholder="e.g. work, reflection, travel"
               aria-invalid={!!state.errors?.Tags}
@@ -130,7 +130,7 @@ export function JournalForm({ journal, action }: JournalFormProps) {
             {state.errors?.Tags && <p id="tags-error" className="text-sm text-destructive">{state.errors.Tags.join(', ')}</p>}
           </div>
           <div className="flex items-center space-x-2">
-            <Checkbox id="isPublished" name="isPublished" defaultChecked={journal?.IsPublished ?? true} />
+            <Checkbox id="isPublished" name="IsPublished" defaultChecked={journal?.IsPublished ?? true} />
             <label
               htmlFor="isPublished"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
