@@ -58,7 +58,8 @@ export async function getJournals(params: GetJournalsParams = {}): Promise<Journ
 }
 
 export async function getJournal(id: string): Promise<JournalResponse> {
-  return fetcher(`/journals/${id}`);
+  const journalData = await fetcher(`/journals/${id}`);
+  return { data: journalData };
 }
 
 type JournalMutationPayload = {
@@ -69,7 +70,7 @@ type JournalMutationPayload = {
 };
 
 
-export async function createJournal(data: JournalMutationPayload): Promise<JournalResponse> {
+export async function createJournal(data: JournalMutationPayload): Promise<Journal> {
   return fetcher('/journals', {
     method: 'POST',
     body: JSON.stringify(data),
@@ -77,10 +78,11 @@ export async function createJournal(data: JournalMutationPayload): Promise<Journ
 }
 
 export async function updateJournal(id: string, data: JournalMutationPayload): Promise<JournalResponse> {
-  return fetcher(`/journals/${id}`, {
+  const updatedJournal = await fetcher(`/journals/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
+  return { data: updatedJournal };
 }
 
 export async function deleteJournal(id: string): Promise<{ message: string }> {

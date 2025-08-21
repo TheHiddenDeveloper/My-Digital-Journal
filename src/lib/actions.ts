@@ -48,7 +48,7 @@ export async function createJournalAction(prevState: FormState, formData: FormDa
     try {
         const newJournal = await createJournal({ ...validatedFields.data, tags });
         revalidateTag('journals');
-        redirect(`/journals/${newJournal.data.id}`);
+        redirect(`/journals/${newJournal.id}`);
     } catch (e) {
         return { message: e instanceof Error ? e.message : 'Failed to create journal entry.' };
     }
