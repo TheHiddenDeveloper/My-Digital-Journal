@@ -31,8 +31,8 @@ export function JournalList({ journals }: JournalListProps) {
             </p>
           </CardContent>
           <CardFooter className="flex-wrap gap-2">
-            {(journal.Tags || []).map((tag) => (
-              <Badge key={tag} variant="secondary">{tag}</Badge>
+            {(journal.Tags || []).map((tag, index) => (
+              <Badge key={`${journal.Id}-tag-${index}`} variant="secondary">{tag}</Badge>
             ))}
             {journal.IsPublished === false && <Badge variant="outline">Draft</Badge>}
           </CardFooter>
