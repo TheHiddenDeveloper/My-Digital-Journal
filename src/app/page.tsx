@@ -9,7 +9,7 @@ import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 type HomePageProps = {
-  searchParams?: {
+  searchParams: {
     page?: string;
     search?: string;
     tag?: string;
