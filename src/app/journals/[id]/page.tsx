@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { DeleteJournalButton } from '@/components/DeleteJournalButton';
 import { ArrowLeft, Pencil } from 'lucide-react';
 import { Card } from '@/components/ui/card';
@@ -31,7 +31,7 @@ export default async function JournalPage({ params }: JournalPageProps) {
                         <div>
                             <h1 className="text-4xl font-bold font-headline mb-2">{journal.Title}</h1>
                             <p className="text-sm text-muted-foreground">
-                                Last updated on {format(new Date(journal.UpdatedAt), 'MMMM d, yyyy, p')}
+                                Last updated on {format(parseISO(journal.UpdatedAt), 'MMMM d, yyyy, p')}
                             </p>
                             <div className="flex flex-wrap items-center gap-2 mt-4">
                                 {journal.Tags.map((tag) => (

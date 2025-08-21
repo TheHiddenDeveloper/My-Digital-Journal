@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import type { Journal } from '@/lib/types';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { Search } from 'lucide-react';
 
 type JournalListProps = {
@@ -80,7 +80,7 @@ export function JournalList({ journals }: JournalListProps) {
                   </Link>
                 </CardTitle>
                 <CardDescription>
-                  {format(new Date(journal.CreatedAt), 'MMMM d, yyyy')}
+                  {format(parseISO(journal.CreatedAt), 'MMMM d, yyyy')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
