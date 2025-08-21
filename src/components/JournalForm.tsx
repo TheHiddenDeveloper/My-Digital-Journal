@@ -1,7 +1,6 @@
 'use client';
 
-import { useFormState } from 'react-dom';
-import { useEffect, useState, useTransition } from 'react';
+import { useActionState, useEffect, useState, useTransition } from 'react';
 import { type Journal } from '@/lib/types';
 import { type FormState, getAiSuggestionsAction } from '@/lib/actions';
 import { Label } from '@/components/ui/label';
@@ -21,7 +20,7 @@ type JournalFormProps = {
 
 export function JournalForm({ journal, action }: JournalFormProps) {
   const { toast } = useToast();
-  const [state, formAction] = useFormState(action, { message: '' });
+  const [state, formAction] = useActionState(action, { message: '' });
   
   const [content, setContent] = useState(journal?.content || '');
   const [title, setTitle] = useState(journal?.title || '');
