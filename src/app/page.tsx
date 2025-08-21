@@ -83,9 +83,7 @@ async function Journals({ searchParams }: HomePageProps) {
 }
 
 export default function Home({ searchParams }: HomePageProps) {
-  const page = searchParams?.page || '1';
-  const search = searchParams?.search || '';
-  const tag = searchParams?.tag || '';
+  const { page = '1', search = '', tag = '' } = searchParams;
   
   return (
     <div className="space-y-8">
