@@ -80,7 +80,7 @@ export function JournalList({ journals }: JournalListProps) {
                   </Link>
                 </CardTitle>
                 <CardDescription>
-                  {format(parseISO(journal.CreatedAt), 'MMMM d, yyyy')}
+                  {journal.CreatedAt && format(parseISO(journal.CreatedAt), 'MMMM d, yyyy')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
