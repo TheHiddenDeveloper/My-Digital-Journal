@@ -5,6 +5,7 @@ import { createJournal, deleteJournal, updateJournal } from './api';
 import { revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { suggestTitle } from '@/ai/flows/suggest-title';
+import { Journal } from './types';
 
 const journalSchema = z.object({
   Title: z.string().min(3, 'Title must be at least 3 characters long.'),
@@ -45,13 +46,18 @@ export async function createJournalAction(prevState: FormState, formData: FormDa
     
     const tags = parseTags(validatedFields.data.Tags);
 
+    let newJournal: Journal | null = null;
     try {
-        const newJournal = await createJournal({ ...validatedFields.data, Tags: tags });
-        revalidateTag('journals');
-        redirect(`/journals/${newJournal.Id}`);
+        newJournal = await createJournal({ ...validatedFields.data, Tags: tags });
+        if (!newJournal || !newJournal.Id) {
+            return { message: 'Failed to create journal entry: Invalid response from API.' };
+        }
     } catch (e) {
         return { message: e instanceof Error ? e.message : 'Failed to create journal entry.' };
     }
+    
+    revalidateTag('journals');
+    redirect(`/journals/${newJournal.Id}`);
 }
 
 

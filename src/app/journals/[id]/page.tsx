@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
 import { DeleteJournalButton } from '@/components/DeleteJournalButton';
 import { ArrowLeft, Pencil } from 'lucide-react';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 type JournalPageProps = {
     params: { id: string };
@@ -16,7 +16,10 @@ export default async function JournalPage({ params }: JournalPageProps) {
     const id = params.id;
     
     try {
-        const { data: journal } = await getJournal(id);
+        const journal = await getJournal(id);
+        if (!journal) {
+          notFound();
+        }
 
         return (
             <div className="max-w-4xl mx-auto">
@@ -30,11 +33,13 @@ export default async function JournalPage({ params }: JournalPageProps) {
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                         <div>
                             <h1 className="text-4xl font-bold font-headline mb-2">{journal.Title}</h1>
-                            <p className="text-sm text-muted-foreground">
-                                Last updated on {format(parseISO(journal.UpdatedAt), 'MMMM d, yyyy, p')}
-                            </p>
+                             {journal.UpdatedAt && (
+                                <p className="text-sm text-muted-foreground">
+                                    Last updated on {format(parseISO(journal.UpdatedAt), 'MMMM d, yyyy, p')}
+                                </p>
+                            )}
                             <div className="flex flex-wrap items-center gap-2 mt-4">
-                                {journal.Tags.map((tag) => (
+                                {(journal.Tags || []).map((tag) => (
                                 <Badge key={tag} variant="secondary">{tag}</Badge>
                                 ))}
                                 {journal.IsPublished ? (
@@ -57,9 +62,14 @@ export default async function JournalPage({ params }: JournalPageProps) {
                 </div>
 
                 <Card>
-                    <article className="p-6 sm:p-8 space-y-4">
-                        <div className="text-base leading-relaxed" dangerouslySetInnerHTML={{ __html: journal.Content.replace(/\n/g, '<br />') }} />
-                    </article>
+                    <CardHeader>
+                        <h2 className="text-xl font-semibold">Content</h2>
+                    </CardHeader>
+                    <CardContent>
+                        <article className="prose dark:prose-invert max-w-none">
+                          <div className="text-base leading-relaxed" dangerouslySetInnerHTML={{ __html: journal.Content.replace(/\n/g, '<br />') }} />
+                        </article>
+                    </CardContent>
                 </Card>
             </div>
         );

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Header } from '@/components/Header';
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
+import { AppLayout } from '@/components/AppLayout';
 
 export const metadata: Metadata = {
   title: 'My Digital Journal',
@@ -21,12 +21,9 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased h-full bg-background text-foreground">
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="flex-grow container mx-auto p-4 md:p-6">
-            {children}
-          </main>
-        </div>
+        <AppLayout>
+          {children}
+        </AppLayout>
         <Toaster />
       </body>
     </html>

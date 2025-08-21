@@ -11,9 +11,4 @@ export type Journal = {
 export type JournalsResponse = {
   data: Journal[];
   totalPages: number;
-  currentPage: number;
 };
-
-export type JournalResponse = {
-  data: Journal;
-}

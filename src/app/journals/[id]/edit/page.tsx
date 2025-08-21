@@ -11,7 +11,11 @@ export default async function EditJournalPage({ params }: EditJournalPageProps) 
   const id = params.id;
   
   try {
-    const { data: journal } = await getJournal(id);
+    const journal = await getJournal(id);
+    if (!journal) {
+      notFound();
+    }
+    
     const updateActionWithId = updateJournalAction.bind(null, id);
 
     return <JournalForm journal={journal} action={updateActionWithId} />;
