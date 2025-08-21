@@ -10,7 +10,6 @@ async function fetcher(url: string, options: RequestInit = {}) {
         'Content-Type': 'application/json',
         ...options.headers,
       },
-      // Using tags for on-demand revalidation. No caching for journal data.
       next: {
         tags: ['journals'],
         revalidate: 0,
@@ -22,6 +21,13 @@ async function fetcher(url: string, options: RequestInit = {}) {
       console.error('API Error:', res.status, res.statusText, errorBody);
       throw new Error(errorBody.message || `Request failed with status ${res.status}`);
     }
+
+    if (res.headers.has('X-Pagination')) {
+      const pagination = JSON.parse(res.headers.get('X-Pagination')!);
+      const data = await res.json();
+      return { data, ...pagination };
+    }
+    
     return res.json();
   } catch (error) {
     console.error('Network or fetch error:', error);
@@ -31,6 +37,7 @@ async function fetcher(url: string, options: RequestInit = {}) {
     throw new Error('An unknown network error occurred.');
   }
 }
+
 
 type GetJournalsParams = {
   page?: number;

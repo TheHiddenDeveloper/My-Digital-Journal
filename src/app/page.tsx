@@ -47,7 +47,6 @@ async function Journals({ searchParams }: HomePageProps) {
     const { data, totalPages, currentPage } = await getJournals({ page, pageSize, search, tag });
     
     if (!data || !Array.isArray(data)) {
-        // Render error state or an empty list if data is not as expected
         return (
           <div className="text-center py-16 text-destructive bg-destructive/10 rounded-lg">
               <h2 className="text-2xl font-semibold">Could not load journal entries.</h2>
