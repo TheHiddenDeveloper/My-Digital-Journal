@@ -1,3 +1,4 @@
+
 import { JournalList } from '@/components/JournalList';
 import { Pagination } from '@/components/Pagination';
 import { Button } from '@/components/ui/button';
@@ -82,6 +83,10 @@ async function Journals({ searchParams }: HomePageProps) {
 }
 
 export default function Home({ searchParams }: HomePageProps) {
+  const page = searchParams?.page || '1';
+  const search = searchParams?.search || '';
+  const tag = searchParams?.tag || '';
+  
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
@@ -94,7 +99,7 @@ export default function Home({ searchParams }: HomePageProps) {
         </Button>
       </div>
       
-      <Suspense fallback={<JournalListSkeleton />}>
+      <Suspense key={`${page}-${search}-${tag}`} fallback={<JournalListSkeleton />}>
         <Journals searchParams={searchParams} />
       </Suspense>
     </div>
