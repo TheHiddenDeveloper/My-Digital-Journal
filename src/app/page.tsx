@@ -52,11 +52,20 @@ async function Journals({ searchParams }: HomePageProps) {
       </>
     );
   } catch (error) {
+    const isFetchError = error instanceof TypeError && error.message.includes('fetch failed');
+    const errorMessage = isFetchError
+      ? 'Could not connect to the backend API. Please make sure the API server is running.'
+      : error instanceof Error
+        ? error.message
+        : 'An unknown error occurred.';
+
     return (
       <div className="text-center py-16 text-destructive bg-destructive/10 rounded-lg">
           <h2 className="text-2xl font-semibold">Failed to load journal entries.</h2>
-          <p className="mt-2">{error instanceof Error ? error.message : 'Please try again later.'}</p>
-          <p className="text-sm text-muted-foreground mt-4">Is the backend API server running at http://localhost:5000?</p>
+          <p className="mt-2">{errorMessage}</p>
+          {isFetchError && (
+            <p className="text-sm text-muted-foreground mt-4">Is the backend API server running at http://localhost:5000?</p>
+          )}
       </div>
     );
   }
