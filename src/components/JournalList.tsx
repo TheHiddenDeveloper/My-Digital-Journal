@@ -72,24 +72,24 @@ export function JournalList({ journals }: JournalListProps) {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {journals.map((journal) => (
-            <Card key={journal.id} className="flex flex-col hover:shadow-lg transition-shadow duration-300 bg-card/50">
+            <Card key={journal.Id} className="flex flex-col hover:shadow-lg transition-shadow duration-300 bg-card/50">
               <CardHeader>
                 <CardTitle className="font-headline line-clamp-2 text-xl">
-                  <Link href={`/journals/${journal.id}`} className="hover:text-primary transition-colors">
-                    {journal.title}
+                  <Link href={`/journals/${journal.Id}`} className="hover:text-primary transition-colors">
+                    {journal.Title}
                   </Link>
                 </CardTitle>
                 <CardDescription>
-                  {format(new Date(journal.createdAt), 'MMMM d, yyyy')}
+                  {format(new Date(journal.CreatedAt), 'MMMM d, yyyy')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
                 <p className="line-clamp-4 text-sm text-foreground/80">
-                  {journal.content}
+                  {journal.Content}
                 </p>
               </CardContent>
               <CardFooter className="flex-wrap gap-2">
-                {journal.tags.map(tag => (
+                {journal.Tags.map(tag => (
                   <Badge key={tag} variant="secondary">{tag}</Badge>
                 ))}
               </CardFooter>

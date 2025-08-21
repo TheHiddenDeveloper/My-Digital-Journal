@@ -22,6 +22,10 @@ async function fetcher(url: string, options: RequestInit = {}) {
       throw new Error(errorBody.message || `Request failed with status ${res.status}`);
     }
 
+    if (res.status === 204) {
+        return { message: 'Success' };
+    }
+
     if (res.headers.has('X-Pagination')) {
       const pagination = JSON.parse(res.headers.get('X-Pagination')!);
       const data = await res.json();
@@ -63,10 +67,10 @@ export async function getJournal(id: string): Promise<JournalResponse> {
 }
 
 type JournalMutationPayload = {
-  title: string;
-  content: string;
-  tags: string[];
-  isPublished: boolean;
+  Title: string;
+  Content: string;
+  Tags: string[];
+  IsPublished: boolean;
 };
 
 

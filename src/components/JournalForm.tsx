@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Wand2, Loader2 } from 'lucide-react';
-import { Switch } from '@/components/ui/switch';
 import { Checkbox } from './ui/checkbox';
 
 type JournalFormProps = {
@@ -22,8 +21,8 @@ export function JournalForm({ journal, action }: JournalFormProps) {
   const { toast } = useToast();
   const [state, formAction] = useActionState(action, { message: '' });
   
-  const [content, setContent] = useState(journal?.content || '');
-  const [title, setTitle] = useState(journal?.title || '');
+  const [content, setContent] = useState(journal?.Content || '');
+  const [title, setTitle] = useState(journal?.Title || '');
   
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isAiLoading, startAiTransition] = useTransition();
@@ -35,7 +34,7 @@ export function JournalForm({ journal, action }: JournalFormProps) {
         title: 'Validation Error',
         description: state.message,
       });
-    } else if (state.message) {
+    } else if (state.message && !state.message.includes('NEXT_REDIRECT')) { // Do not show toast for redirects
       toast({
         variant: 'destructive',
         title: 'An error occurred',
@@ -81,10 +80,10 @@ export function JournalForm({ journal, action }: JournalFormProps) {
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="A title for your entry"
                   required
-                  aria-invalid={!!state.errors?.title}
+                  aria-invalid={!!state.errors?.Title}
                   aria-describedby="title-error"
                 />
-                {state.errors?.title && <p id="title-error" className="text-sm text-destructive">{state.errors.title.join(', ')}</p>}
+                {state.errors?.Title && <p id="title-error" className="text-sm text-destructive">{state.errors.Title.join(', ')}</p>}
               </div>
               <Button type="button" variant="outline" onClick={handleGetSuggestions} disabled={isAiLoading || content.length < 50}>
                 {isAiLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wand2 className="mr-2 h-4 w-4" />}
@@ -112,33 +111,33 @@ export function JournalForm({ journal, action }: JournalFormProps) {
               placeholder="Write what's on your mind..."
               className="min-h-[300px]"
               required
-              aria-invalid={!!state.errors?.content}
+              aria-invalid={!!state.errors?.Content}
               aria-describedby="content-error"
             />
-            {state.errors?.content && <p id="content-error" className="text-sm text-destructive">{state.errors.content.join(', ')}</p>}
+            {state.errors?.Content && <p id="content-error" className="text-sm text-destructive">{state.errors.Content.join(', ')}</p>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="tags">Tags</Label>
             <Input
               id="tags"
               name="tags"
-              defaultValue={journal?.tags.join(', ')}
+              defaultValue={journal?.Tags.join(', ')}
               placeholder="e.g. work, reflection, travel"
-              aria-invalid={!!state.errors?.tags}
+              aria-invalid={!!state.errors?.Tags}
               aria-describedby="tags-error"
             />
             <p className="text-sm text-muted-foreground">Separate tags with a comma.</p>
-            {state.errors?.tags && <p id="tags-error" className="text-sm text-destructive">{state.errors.tags.join(', ')}</p>}
+            {state.errors?.Tags && <p id="tags-error" className="text-sm text-destructive">{state.errors.Tags.join(', ')}</p>}
           </div>
           <div className="flex items-center space-x-2">
-            <Checkbox id="isPublished" name="isPublished" defaultChecked={journal?.isPublished ?? true} />
+            <Checkbox id="isPublished" name="isPublished" defaultChecked={journal?.IsPublished ?? true} />
             <label
               htmlFor="isPublished"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               Publish this entry
             </label>
-             {state.errors?.isPublished && <p id="isPublished-error" className="text-sm text-destructive">{state.errors.isPublished.join(', ')}</p>}
+             {state.errors?.IsPublished && <p id="isPublished-error" className="text-sm text-destructive">{state.errors.IsPublished.join(', ')}</p>}
           </div>
         </CardContent>
         <CardFooter className="flex justify-end">

@@ -29,15 +29,15 @@ export default async function JournalPage({ params }: JournalPageProps) {
                     </Button>
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                         <div>
-                            <h1 className="text-4xl font-bold font-headline mb-2">{journal.title}</h1>
+                            <h1 className="text-4xl font-bold font-headline mb-2">{journal.Title}</h1>
                             <p className="text-sm text-muted-foreground">
-                                Last updated on {format(new Date(journal.updatedAt), 'MMMM d, yyyy, p')}
+                                Last updated on {format(new Date(journal.UpdatedAt), 'MMMM d, yyyy, p')}
                             </p>
                             <div className="flex flex-wrap items-center gap-2 mt-4">
-                                {journal.tags.map((tag) => (
+                                {journal.Tags.map((tag) => (
                                 <Badge key={tag} variant="secondary">{tag}</Badge>
                                 ))}
-                                {journal.isPublished ? (
+                                {journal.IsPublished ? (
                                     <Badge variant="default">Published</Badge>
                                 ) : (
                                     <Badge variant="outline">Draft</Badge>
@@ -46,19 +46,19 @@ export default async function JournalPage({ params }: JournalPageProps) {
                         </div>
                         <div className="flex gap-2 shrink-0">
                             <Button asChild size="sm">
-                                <Link href={`/journals/${journal.id}/edit`}>
+                                <Link href={`/journals/${journal.Id}/edit`}>
                                     <Pencil className="mr-2 h-4 w-4" />
                                     Edit
                                 </Link>
                             </Button>
-                            <DeleteJournalButton journalId={journal.id} />
+                            <DeleteJournalButton journalId={journal.Id} />
                         </div>
                     </div>
                 </div>
 
                 <Card>
                     <article className="p-6 sm:p-8 space-y-4">
-                        <div className="text-base leading-relaxed" dangerouslySetInnerHTML={{ __html: journal.content.replace(/\n/g, '<br />') }} />
+                        <div className="text-base leading-relaxed" dangerouslySetInnerHTML={{ __html: journal.Content.replace(/\n/g, '<br />') }} />
                     </article>
                 </Card>
             </div>

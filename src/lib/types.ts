@@ -1,11 +1,11 @@
 export type Journal = {
-  id: string;
-  title: string;
-  content: string;
-  tags: string[];
-  isPublished: boolean;
-  createdAt: string;
-  updatedAt: string;
+  Id: string;
+  Title: string;
+  Content: string;
+  Tags: string[];
+  IsPublished: boolean;
+  CreatedAt: string;
+  UpdatedAt: string;
 };
 
 export type JournalsResponse = {

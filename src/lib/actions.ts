@@ -7,19 +7,19 @@ import { redirect } from 'next/navigation';
 import { suggestTitle } from '@/ai/flows/suggest-title';
 
 const journalSchema = z.object({
-  title: z.string().min(3, 'Title must be at least 3 characters long.'),
-  content: z.string().min(10, 'Content must be at least 10 characters long.'),
-  tags: z.string().optional(),
-  isPublished: z.boolean(),
+  Title: z.string().min(3, 'Title must be at least 3 characters long.'),
+  Content: z.string().min(10, 'Content must be at least 10 characters long.'),
+  Tags: z.string().optional(),
+  IsPublished: z.boolean(),
 });
 
 export type FormState = {
   message: string;
   errors?: {
-    title?: string[];
-    content?: string[];
-    tags?: string[];
-    isPublished?: string[];
+    Title?: string[];
+    Content?: string[];
+    Tags?: string[];
+    IsPublished?: string[];
   };
 };
 
@@ -30,10 +30,10 @@ function parseTags(tagsString?: string): string[] {
 
 export async function createJournalAction(prevState: FormState, formData: FormData): Promise<FormState> {
     const validatedFields = journalSchema.safeParse({
-        title: formData.get('title'),
-        content: formData.get('content'),
-        tags: formData.get('tags'),
-        isPublished: formData.get('isPublished') === 'on',
+        Title: formData.get('title'),
+        Content: formData.get('content'),
+        Tags: formData.get('tags'),
+        IsPublished: formData.get('isPublished') === 'on',
     });
 
     if (!validatedFields.success) {
@@ -43,12 +43,12 @@ export async function createJournalAction(prevState: FormState, formData: FormDa
         };
     }
     
-    const tags = parseTags(validatedFields.data.tags);
+    const tags = parseTags(validatedFields.data.Tags);
 
     try {
-        const newJournal = await createJournal({ ...validatedFields.data, tags });
+        const newJournal = await createJournal({ ...validatedFields.data, Tags: tags });
         revalidateTag('journals');
-        redirect(`/journals/${newJournal.id}`);
+        redirect(`/journals/${newJournal.Id}`);
     } catch (e) {
         return { message: e instanceof Error ? e.message : 'Failed to create journal entry.' };
     }
@@ -57,10 +57,10 @@ export async function createJournalAction(prevState: FormState, formData: FormDa
 
 export async function updateJournalAction(id: string, prevState: FormState, formData: FormData): Promise<FormState> {
     const validatedFields = journalSchema.safeParse({
-        title: formData.get('title'),
-        content: formData.get('content'),
-        tags: formData.get('tags'),
-        isPublished: formData.get('isPublished') === 'on',
+        Title: formData.get('title'),
+        Content: formData.get('content'),
+        Tags: formData.get('tags'),
+        IsPublished: formData.get('isPublished') === 'on',
     });
 
     if (!validatedFields.success) {
@@ -70,15 +70,16 @@ export async function updateJournalAction(id: string, prevState: FormState, form
         };
     }
     
-    const tags = parseTags(validatedFields.data.tags);
+    const tags = parseTags(validatedFields.data.Tags);
 
     try {
-        await updateJournal(id, { ...validatedFields.data, tags });
+        await updateJournal(id, { ...validatedFields.data, Tags: tags });
     } catch (e) {
         return { message: e instanceof Error ? e.message : 'Failed to update journal entry.' };
     }
 
     revalidateTag('journals');
+    revalidateTag(`journals:${id}`);
     redirect(`/journals/${id}`);
 }
 
