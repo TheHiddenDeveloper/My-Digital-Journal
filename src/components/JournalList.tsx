@@ -89,7 +89,7 @@ export function JournalList({ journals }: JournalListProps) {
                 </p>
               </CardContent>
               <CardFooter className="flex-wrap gap-2">
-                {journal.Tags.map(tag => (
+                {(journal.Tags || []).map(tag => (
                   <Badge key={tag} variant="secondary">{tag}</Badge>
                 ))}
               </CardFooter>

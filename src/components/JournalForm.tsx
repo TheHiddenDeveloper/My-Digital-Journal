@@ -121,7 +121,7 @@ export function JournalForm({ journal, action }: JournalFormProps) {
             <Input
               id="tags"
               name="tags"
-              defaultValue={journal?.Tags.join(', ')}
+              defaultValue={journal?.Tags?.join(', ') ?? ''}
               placeholder="e.g. work, reflection, travel"
               aria-invalid={!!state.errors?.Tags}
               aria-describedby="tags-error"
